@@ -34,7 +34,7 @@ public class UserDAO {
 			Connection c = Conexion.getCon();
 
 			Statement s = c.createStatement();
-			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u LEFT JOIN direcciones d ON u.id = d.usuario_id LEFT JOIN roles_usuarios ru ON u.id = ru.usuario_id WHERE u.correo =  '" + correo+"'";
+			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u INNER JOIN direcciones d ON u.id = d.usuario_id INNER JOIN roles_usuarios ru ON u.id = ru.usuario_id WHERE u.correo =  '" + correo+"'";
 				
 			ResultSet rs = s.executeQuery(sql);
 						
@@ -56,11 +56,10 @@ public class UserDAO {
 
 		try {
 
-			// pido una conección a la BD
 			Connection c = Conexion.getCon();
 
 			Statement s = c.createStatement();
-			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u LEFT JOIN direcciones d ON u.id = d.usuario_id LEFT JOIN roles_usuarios ru ON u.id = ru.usuario_id";
+			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u INNER JOIN direcciones d ON u.id = d.usuario_id INNER JOIN roles_usuarios ru ON u.id = ru.usuario_id";
 
 			ResultSet rs = s.executeQuery(sql);
 
@@ -85,10 +84,8 @@ public class UserDAO {
 			Connection c = Conexion.getCon();
 
 			Statement s = c.createStatement();
-			String sql = "select * from usuarios where correo = " + correo;
-
+			String sql = "select * from usuarios where correo = '" + correo+"'";
 			ResultSet rs = s.executeQuery(sql);
-			System.out.println("boolean " + rs.next());
 			return rs.next();
 				
 		} catch (SQLException e) {

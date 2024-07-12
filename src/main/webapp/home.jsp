@@ -28,7 +28,9 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Correo</th>
-                    <th>Dirección</th>
+                    <th>Nick</th>
+                    <th>Peso</th>
+                    <th>Direccion</th>
                 </tr>
                 <%
                     for (User usuario : usuarios) {
@@ -37,7 +39,11 @@
                         <td><%= usuario.getId() %></td>
                         <td><%= usuario.getNombre() %></td>
                         <td><%= usuario.getCorreo() %></td>
+                        <td><%= usuario.getNick() %></td>
+                        <td><%= usuario.getPeso() %></td>
                         <td><%= usuario.getDireccion() %></td>
+                        
+                        
                     </tr>
                 <%
                     }

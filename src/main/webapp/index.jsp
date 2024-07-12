@@ -10,6 +10,9 @@
     <h1>Bienvenido al Sistema de gestion y administracion de trabajadores</h1>
     <form action="registro.jsp" method="get">
         <button type="submit">Registro</button>
+        <br>
+        <br>
+        <br>
     </form>
     <form action="login.jsp" method="get">
         <button type="submit">Login</button>
