@@ -50,7 +50,7 @@ public class RegistroServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
 		
 		
 		String nombre = request.getParameter("nombre");
@@ -60,11 +60,11 @@ public class RegistroServlet extends HttpServlet {
         int peso = Integer.parseInt(request.getParameter("peso"));
 
         if (userDAO.checkUserExists(correo)) {
-            response.getWriter().println("User already exists with this email.");
+            response.getWriter().println("Ya existe usuario con este correo.");
         } else {
             User user = new User(correo, nick, nombre, password, peso);
             userDAO.create(user);
-            response.getWriter().println("User registered successfully.");
+            response.getWriter().println("Usuario registrado exitosamente.");
         }
 	}
 

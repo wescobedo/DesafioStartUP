@@ -12,6 +12,8 @@ public class User {
     private String password;
     private int peso;
     private Timestamp updatedAt;
+    private boolean isAdmin;
+    private String direccion;
        
             
 	public User() {
@@ -40,6 +42,22 @@ public class User {
 		this.password = password;
 		this.peso = peso;
 		this.updatedAt = updatedAt;
+	}
+	
+	
+
+	public User(int id, String correo, Timestamp createdAt, String nick, String nombre, String password, int peso, Timestamp updatedAt, boolean isAdmin, String direccion) {
+		super();
+		this.id = id;
+		this.correo = correo;
+		this.createdAt = createdAt;
+		this.nick = nick;
+		this.nombre = nombre;
+		this.password = password;
+		this.peso = peso;
+		this.updatedAt = updatedAt;
+		this.isAdmin = isAdmin;
+		this.direccion = direccion;
 	}
 
 	public int getId() {
@@ -104,6 +122,22 @@ public class User {
 
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 

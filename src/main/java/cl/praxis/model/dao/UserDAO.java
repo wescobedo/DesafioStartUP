@@ -34,15 +34,13 @@ public class UserDAO {
 			Connection c = Conexion.getCon();
 
 			Statement s = c.createStatement();
-			String sql = "select * from usuarios where correo = '" + correo+"'";
-			
-			System.out.println("sql "+ sql);
-
+			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u LEFT JOIN direcciones d ON u.id = d.usuario_id LEFT JOIN roles_usuarios ru ON u.id = ru.usuario_id WHERE u.correo =  '" + correo+"'";
+				
 			ResultSet rs = s.executeQuery(sql);
-			
-			System.out.println("rs "+rs);
+						
 			if (rs.next()) {
-				a = new User(rs.getInt("id"), rs.getString("correo"), rs.getTimestamp("created_at") ,rs.getString("nick"), rs.getString("nombre"),rs.getString("password"), rs.getInt("peso"), rs.getTimestamp("updated_at") );
+				boolean isAdmin = rs.getInt("rol_id") == 1;
+				a = new User(rs.getInt("id"), rs.getString("correo"), rs.getTimestamp("created_at") ,rs.getString("nick"), rs.getString("nombre"),rs.getString("password"), rs.getInt("peso"), rs.getTimestamp("updated_at") ,isAdmin, rs.getString("direccion"));
 			}
 		} catch (SQLException e) {
 			System.out.println("ERROR en método read(id)");
@@ -62,12 +60,14 @@ public class UserDAO {
 			Connection c = Conexion.getCon();
 
 			Statement s = c.createStatement();
-			String sql = "select * from usuarios";
+			String sql = "SELECT u.*, d.nombre as direccion, ru.rol_id FROM usuarios u LEFT JOIN direcciones d ON u.id = d.usuario_id LEFT JOIN roles_usuarios ru ON u.id = ru.usuario_id";
 
 			ResultSet rs = s.executeQuery(sql);
 
 			while (rs.next()) {
-				user.add(new User(rs.getInt("id"), rs.getString("correo"), rs.getTimestamp("created_at") ,rs.getString("nick"), rs.getString("nombre"),rs.getString("password"), rs.getInt("peso"), rs.getTimestamp("updated_at")));
+				boolean isAdmin = rs.getInt("rol_id") == 1;
+
+				user.add(new User(rs.getInt("id"), rs.getString("correo"), rs.getTimestamp("created_at") ,rs.getString("nick"), rs.getString("nombre"),rs.getString("password"), rs.getInt("peso"), rs.getTimestamp("updated_at"), isAdmin, rs.getString("direccion")));
 			}
 
 		} catch (SQLException e) {
@@ -88,10 +88,11 @@ public class UserDAO {
 			String sql = "select * from usuarios where correo = " + correo;
 
 			ResultSet rs = s.executeQuery(sql);
+			System.out.println("boolean " + rs.next());
 			return rs.next();
 				
 		} catch (SQLException e) {
-			System.out.println("ERROR en método read(id)");
+			System.out.println("ERROR en método checkUserExists(correo)");
 			e.printStackTrace();
 		}
 

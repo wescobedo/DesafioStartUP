@@ -1,6 +1,9 @@
 package cl.praxis.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,15 +53,25 @@ public class LoginServlet extends HttpServlet {
 		 String correo = request.getParameter("correo");
 	     String password = request.getParameter("password");
 
-	        User user = userDAO.read(correo);
-	        System.out.println (user);
+	     User user = userDAO.read(correo);
+	       
 
 	        if (user != null && user.getPassword().equals(password)) {
 	            HttpSession session = request.getSession();
 	            session.setAttribute("user", user);
-	            response.sendRedirect("home.jsp");
+	           	            
+	            if (user.isAdmin()) {
+	                List<User> usuarios = userDAO.read();
+	                request.setAttribute("usuarios", usuarios);
+	                RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
+	                dispatcher.forward(request, response);
+	            } else {
+	                response.getWriter().println("Usuario no tiene el rol de administrador.");
+	            }
+              
+	           
 	        } else {
-	            response.getWriter().println("Invalid email or password.");
+	            response.getWriter().println("Correo o password invalidos.");
 	        }
 		
 		

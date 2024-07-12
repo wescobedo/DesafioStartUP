@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="cl.praxis.model.dto.User" %>
+<%@ page import="java.util.List" %>
+
 <%@ page session="true" %>  
     
     
@@ -13,15 +15,42 @@
 </head>
 <body>
 
-<h1>Welcome Home</h1>
+<h1>Listado de usuarios</h1>
     <%
         User user = (User) session.getAttribute("user");
-        if (user != null) {
-            out.println("Nombre: " + user.getNombre() + "<br>");
-            out.println("Correo: " + user.getCorreo() + "<br>");
+    User loggedInUser = (User) session.getAttribute("user");
+    if (loggedInUser != null && loggedInUser.isAdmin()) {
+        List<User> usuarios = (List<User>) request.getAttribute("usuarios");
+        if (usuarios != null) {
+%>
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                </tr>
+                <%
+                    for (User usuario : usuarios) {
+                %>
+                    <tr>
+                        <td><%= usuario.getId() %></td>
+                        <td><%= usuario.getNombre() %></td>
+                        <td><%= usuario.getCorreo() %></td>
+                        <td><%= usuario.getDireccion() %></td>
+                    </tr>
+                <%
+                    }
+                %>
+            </table>
+<%
         } else {
-            response.sendRedirect("index.jsp");
+            out.println("No se encontraron usuarios.");
         }
+    } else {
+        out.println("Acceso denegado. No tiene permisos de administrador.");
+    }
+
      %>
 
 </body>
